@@ -1,6 +1,6 @@
 package Test::Internet;
 
-$Test::Internet::VERSION   = '0.01';
+$Test::Internet::VERSION   = '0.02';
 $Test::Internet::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Test::Internet - Interface to test internet connection.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 

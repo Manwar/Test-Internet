@@ -24,10 +24,10 @@ WriteMakefile(
         'Test::Builder' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean => { FILES => 'Test-Excel-*' },
+    clean => { FILES => 'Test-Internet-*' },
     (eval { ExtUtils::MakeMaker->VERSION(6.46) } ? (META_MERGE => {
         'meta-spec' => { version => 2 },
-        provides    => { 'Test::Internet' => { file => 'lib/Test/Internet.pm', version => '0.01' } },
+        provides    => { 'Test::Internet' => { file => 'lib/Test/Internet.pm', version => '0.02' } },
         resources   => {
             repository => {
                 type => 'git',

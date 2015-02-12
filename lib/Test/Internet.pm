@@ -1,6 +1,6 @@
 package Test::Internet;
 
-$Test::Internet::VERSION   = '0.02';
+$Test::Internet::VERSION   = '0.03';
 $Test::Internet::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Test::Internet - Interface to test internet connection.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
@@ -29,18 +29,22 @@ our $DEFAULT_TIMEOUT = 5;
 =head1 DESCRIPTION
 
 It provides a simple interface to test the internet connection reliably. I needed
-this feature in the test script for one of my package L<WWW::Google::Places>.
+this feature in the test script for one of my package L<WWW::Google::Places>. The
+code can be found L<here|https://raw.githubusercontent.com/Manwar/WWW-Google-Places/master/t/05-paging.t>.
 
 =head1 METHODS
 
 =head2 connect_ok($timeout)
+
+Return true/false depending on whether there is an active internet connection.The
+default timeout is 5 seconds unless the user pass the timeout period.
 
     use strict; use warnings;
     use Test::More;
     use Test::Internet qw(connect_ok);
 
     plan skip_all => "No internet connection." unless connect_ok();
-    ok(connect_ok);
+    ok(connect_ok());
     done_testing();
 
 =cut

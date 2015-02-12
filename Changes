@@ -1,5 +1,10 @@
 Revision history for Perl extension Test::Internet.
 
+0.03  Thu Feb 12 22:30:00 2015
+      - Added description to the method connect_ok().
+      - Tidied up the example code in the pod document and added link
+        to test script of WWW::Google::Places.
+
 0.02  Thu Feb 12 14:40:00 2015
       - Fixed the typo in the Makefile.PL file.
 

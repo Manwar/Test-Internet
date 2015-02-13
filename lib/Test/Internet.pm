@@ -1,6 +1,6 @@
 package Test::Internet;
 
-$Test::Internet::VERSION   = '0.03';
+$Test::Internet::VERSION   = '0.04';
 $Test::Internet::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,13 +9,14 @@ Test::Internet - Interface to test internet connection.
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
 use strict; use warnings;
 
 use 5.006;
+use Socket;
 use Net::DNS;
 use Data::Dumper;
 use Test::Builder ();
@@ -24,7 +25,7 @@ require Exporter;
 our @ISA    = qw(Exporter);
 our @EXPORT = qw(connect_ok);
 
-our $DEFAULT_TIMEOUT = 5;
+our $DEFAULT_TIMEOUT = 2;
 
 =head1 DESCRIPTION
 
@@ -37,11 +38,12 @@ code can be found L<here|https://raw.githubusercontent.com/Manwar/WWW-Google-Pla
 =head2 connect_ok($timeout)
 
 Return true/false depending on whether there is an active internet connection.The
-default timeout is 5 seconds unless the user pass the timeout period.
+default  timeout  is  2 seconds  unless the user pass the timeout period. It gets
+exported by default.
 
     use strict; use warnings;
     use Test::More;
-    use Test::Internet qw(connect_ok);
+    use Test::Internet;
 
     plan skip_all => "No internet connection." unless connect_ok();
     ok(connect_ok());
@@ -52,13 +54,39 @@ default timeout is 5 seconds unless the user pass the timeout period.
 sub connect_ok {
     my ($timeout) = @_;
 
+    my @nameservers = grep { inet_aton("$_.root-servers.net") } ('a'..'j');
+    return 0 unless (scalar(@nameservers));
+
     $timeout = $DEFAULT_TIMEOUT unless defined $timeout;
     my $resolver = Net::DNS::Resolver->new;
     $resolver->tcp_timeout($timeout);
     $resolver->udp_timeout($timeout);
+    $resolver->nameservers(map { "$_.root-servers.net" } @nameservers);
 
-    return defined $resolver->query("root-servers.net", "NS");
+    my $response = $resolver->query("root-servers.net", "NS");
+    if (defined $response) {
+        return 1 if (grep { $_->type eq 'NS' } $response->answer);
+    }
+
+    return 0;
 }
+
+=head1 Why L<Test::Internet>?
+
+Karen Etheridge raised this question as in RT# 102095 and introduced me to a very
+similar module L<Test::RequiresInternet> on CPAN.What a shame that it didn't turn
+up in a search on CPAN, while I was looking for any module with the word Internet.
+I am not an expert on how the CPAN search engine works, though. Had I known about
+it, I wouldn't have bothered creating L<Test::Internet> to be honest.
+
+The nice thing about the L<Test::RequiresInternet> is  that  it does not need any
+external module and just uses what is available in core perl i.e. Socket. However
+it relies on a webservice to exist and respond, so if that webservice is down the
+module will give a false negative.
+
+So if the  requirement is to check if there is an active internet connection only
+then  I  would  recommend L<Test::Internet>. In case you want to check if you can
+reach a particular given host as well then go for L<Test::RequiresInternet>.
 
 =head1 AUTHOR
 
@@ -67,6 +95,14 @@ Mohammad S Anwar, C<< <mohammad.anwar at yahoo.com> >>
 =head1 REPOSITORY
 
 L<https://github.com/Manwar/Test-Internet>
+
+=head1 ACKNOWLEDGEMENT
+
+David Kitcher-Jones (m4ddav3) for his immensely valuable inputs.
+
+=head1 SEE ALSO
+
+L<Test::RequiresInternet>
 
 =head1 BUGS
 

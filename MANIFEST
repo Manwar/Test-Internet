@@ -9,3 +9,4 @@ t/pod.t
 t/manifest.t
 t/meta-json.t
 t/meta-yml.t
+t/connect_ok.t

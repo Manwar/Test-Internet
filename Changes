@@ -1,5 +1,9 @@
 Revision history for Perl extension Test::Internet.
 
+0.05  Wed Feb 18 18:05:00 2015
+      - Force the requirement of Net::DNS v0.82.
+      - Catch exception thrown by inet_aton().
+
 0.04  Fri Feb 13 15:30:00 2015
       - Acted upon the issue RT #102095.
       - Refactored the method connect_ok() to be more explicit.

@@ -1,6 +1,6 @@
 package Test::Internet;
 
-$Test::Internet::VERSION   = '0.04';
+$Test::Internet::VERSION   = '0.05';
 $Test::Internet::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Test::Internet - Interface to test internet connection.
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =cut
 
@@ -26,6 +26,16 @@ our @ISA    = qw(Exporter);
 our @EXPORT = qw(connect_ok);
 
 our $DEFAULT_TIMEOUT = 2;
+our $STD_NAMESERVERS = [ 'a.root-servers.net',
+                         'b.root-servers.net',
+                         'c.root-servers.net',
+                         'd.root-servers.net',
+                         'e.root-servers.net',
+                         'f.root-servers.net',
+                         'g.root-servers.net',
+                         'h.root-servers.net',
+                         'i.root-servers.net',
+                         'j.root-servers.net' ];
 
 =head1 DESCRIPTION
 
@@ -54,14 +64,18 @@ exported by default.
 sub connect_ok {
     my ($timeout) = @_;
 
-    my @nameservers = grep { inet_aton("$_.root-servers.net") } ('a'..'j');
+    my @nameservers = ();
+    foreach (@$STD_NAMESERVERS) {
+        inet_aton($_) && (push @nameservers, $_);
+    }
+
     return 0 unless (scalar(@nameservers));
 
     $timeout = $DEFAULT_TIMEOUT unless defined $timeout;
     my $resolver = Net::DNS::Resolver->new;
     $resolver->tcp_timeout($timeout);
     $resolver->udp_timeout($timeout);
-    $resolver->nameservers(map { "$_.root-servers.net" } @nameservers);
+    $resolver->nameservers(@nameservers);
 
     my $response = $resolver->query("root-servers.net", "NS");
     if (defined $response) {

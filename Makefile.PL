@@ -20,14 +20,14 @@ WriteMakefile(
         'Test::More' => 0,
     },
     PREREQ_PM => {
-        'Net::DNS'      => 0,
+        'Net::DNS'      => '0.82',
         'Test::Builder' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Test-Internet-*' },
     (eval { ExtUtils::MakeMaker->VERSION(6.46) } ? (META_MERGE => {
         'meta-spec' => { version => 2 },
-        provides    => { 'Test::Internet' => { file => 'lib/Test/Internet.pm', version => '0.04' } },
+        provides    => { 'Test::Internet' => { file => 'lib/Test/Internet.pm', version => '0.05' } },
         resources   => {
             repository => {
                 type => 'git',

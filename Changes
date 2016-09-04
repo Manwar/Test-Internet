@@ -1,5 +1,9 @@
 Revision history for Perl extension Test::Internet.
 
+0.06  Sun Sep 04 21:55:00 2016
+      - Added unit test script t/00-load.t.
+      - Updated copyright year information.
+
 0.05  Wed Feb 18 18:05:00 2015
       - Force the requirement of Net::DNS v0.82.
       - Catch exception thrown by inet_aton().

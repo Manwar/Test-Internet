@@ -5,6 +5,7 @@ MANIFEST
 MANIFEST.SKIP
 README
 lib/Test/Internet.pm
+t/00-load.t
 t/pod.t
 t/manifest.t
 t/meta-json.t

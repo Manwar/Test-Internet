@@ -11,7 +11,6 @@ WriteMakefile(
     VERSION_FROM       => 'lib/Test/Internet.pm',
     ABSTRACT_FROM      => 'lib/Test/Internet.pm',
     LICENSE            => 'artistic_2',
-    PL_FILES           => {},
     MIN_PERL_VERSION   => 5.006,
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => 0,
@@ -27,12 +26,12 @@ WriteMakefile(
     clean => { FILES => 'Test-Internet-*' },
     (eval { ExtUtils::MakeMaker->VERSION(6.46) } ? (META_MERGE => {
         'meta-spec' => { version => 2 },
-        provides    => { 'Test::Internet' => { file => 'lib/Test/Internet.pm', version => '0.05' } },
+        provides    => { 'Test::Internet' => { file => 'lib/Test/Internet.pm', version => '0.06' } },
         resources   => {
             repository => {
                 type => 'git',
-                url  => 'https://github.com/Manwar/Test-Internet.git',
-                web  => 'https://github.com/Manwar/Test-Internet',
+                url  => 'https://github.com/manwar/Test-Internet.git',
+                web  => 'https://github.com/manwar/Test-Internet',
             },
         }})
      : ()
